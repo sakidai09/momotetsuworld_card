@@ -43,6 +43,16 @@ python -m momotetsuworld_card.search --card "サンプルカードA"
 python -m momotetsuworld_card.search --preview
 ```
 
+### ブラウザでプレビューする（ターミナル不要）
+
+リポジトリ直下の `docs/index.html` をブラウザで開くと、駅名・カード名の検索および登録済みデータの一覧を GUI で確認できます。インターネット接続は不要で、ファイルをダブルクリックするだけで利用できます。
+
+データを更新した場合は、次のコマンドで HTML を再生成すると最新の内容が反映されます。
+
+```bash
+python -m momotetsuworld_card.html_preview --output docs/index.html
+```
+
 ### データファイルを切り替える
 
 別の JSON ファイルを指定したい場合は `--data` 引数を利用してください。
