@@ -71,26 +71,31 @@ const createResultCard = ({ station, cards }) => {
   return article;
 };
 
-const toHiragana = (text) =>
-  text.replace(/[\u30a1-\u30f6]/g, (char) =>
-    String.fromCharCode(char.charCodeAt(0) - 0x60)
-  );
-
-const normalize = (text) => {
-  if (text == null) {
+const toHiragana = (text) => {
+  if (typeof text !== "string") {
     return "";
   }
 
-  return toHiragana(
-    text
-      .toString()
-      .normalize("NFKC")
-      .trim()
-      .toLowerCase()
+  return text.replace(/[\u30a1-\u30f6]/g, (char) =>
+    String.fromCharCode(char.charCodeAt(0) - 0x60)
   );
 };
 
-const renderResults = (query) => {
+const normalize = (value) => {
+  if (value == null) {
+    return "";
+  }
+
+  const normalized = value
+    .toString()
+    .normalize("NFKC")
+    .trim()
+    .toLowerCase();
+
+  return toHiragana(normalized);
+};
+
+const performSearch = (query = input.value) => {
   const normalizedQuery = normalize(query);
 
   if (!normalizedQuery) {
@@ -110,16 +115,12 @@ const renderResults = (query) => {
   resultsContainer.innerHTML = "";
 
   if (!filtered.length) {
-    renderMessage(
-      `「${query}」に一致する駅やカードは見つかりませんでした。`,
-      "error-message"
-    );
+    renderMessage("該当する駅はありません。", "error-message");
     return;
   }
 
   filtered.forEach((stationData) => {
-    const card = createResultCard(stationData);
-    resultsContainer.appendChild(card);
+    resultsContainer.appendChild(createResultCard(stationData));
   });
 };
 
@@ -131,7 +132,7 @@ const createCategoryButton = (cardName) => {
   button.addEventListener("click", () => {
     input.value = cardName;
     input.focus();
-    renderResults(cardName);
+    performSearch(cardName);
   });
 
   return button;
@@ -154,14 +155,34 @@ const populateCategoryButtons = () => {
 
 const attachEventListeners = () => {
   input.addEventListener("input", (event) => {
-    renderResults(event.target.value);
+    performSearch(event.target.value);
   });
 
   clearButton.addEventListener("click", () => {
     input.value = "";
     input.focus();
-    renderResults("");
+    performSearch("");
   });
+};
+
+const formatStationEntry = ([station, cards]) => ({
+  station,
+  cards: Array.isArray(cards) ? cards : [],
+});
+
+const loadStationsFromData = (data) => {
+  if (Array.isArray(data?.stations)) {
+    return data.stations.map((entry) => ({
+      station: entry?.station ?? "",
+      cards: Array.isArray(entry?.cards) ? entry.cards : [],
+    }));
+  }
+
+  if (data && typeof data === "object") {
+    return Object.entries(data).map(formatStationEntry);
+  }
+
+  throw new Error("Unexpected data format");
 };
 
 const init = async () => {
@@ -176,12 +197,8 @@ const init = async () => {
 
     const data = await response.json();
 
-    if (!Array.isArray(data?.stations)) {
-      throw new Error("Unexpected data format");
-    }
-
-    stations = data.stations;
-    renderResults(input.value);
+    stations = loadStationsFromData(data);
+    performSearch(input.value);
   } catch (error) {
     console.error("データの読み込みに失敗しました", error);
     renderMessage(
