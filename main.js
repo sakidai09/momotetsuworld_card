@@ -2,6 +2,44 @@ const resultsContainer = document.getElementById("results");
 const input = document.getElementById("station-input");
 const clearButton = document.getElementById("clear-button");
 
+const categoryDefinitions = [
+  {
+    containerId: "attack-card-buttons",
+    cards: [
+      "刀狩りカード",
+      "豪速球カード",
+      "強奪飛びカード",
+      "ふういんカード",
+      "坊主丸儲けカード",
+      "ライトニングカード",
+      "一頭地を抜くカード",
+      "音速カード",
+      "牛歩カード",
+    ],
+  },
+  {
+    containerId: "move-card-buttons",
+    cards: [
+      "☆飛びカード",
+      "シンデレラカード",
+      "超音速カード",
+      "冬眠カード",
+      "物件飛びカード",
+      "キングに！カード",
+      "銀河鉄道カード",
+    ],
+  },
+  {
+    containerId: "special-card-buttons",
+    cards: [
+      "ダビングカード",
+      "指定うんち！カード",
+      "ゴールドカード",
+      "絶好調カード",
+    ],
+  },
+];
+
 let stations = [];
 
 const renderMessage = (message, className = "result-placeholder") => {
@@ -85,6 +123,35 @@ const renderResults = (query) => {
   });
 };
 
+const createCategoryButton = (cardName) => {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "category-button";
+  button.textContent = cardName;
+  button.addEventListener("click", () => {
+    input.value = cardName;
+    input.focus();
+    renderResults(cardName);
+  });
+
+  return button;
+};
+
+const populateCategoryButtons = () => {
+  categoryDefinitions.forEach(({ containerId, cards }) => {
+    const container = document.getElementById(containerId);
+
+    if (!container) {
+      return;
+    }
+
+    container.innerHTML = "";
+    cards.forEach((cardName) => {
+      container.appendChild(createCategoryButton(cardName));
+    });
+  });
+};
+
 const attachEventListeners = () => {
   input.addEventListener("input", (event) => {
     renderResults(event.target.value);
@@ -125,6 +192,7 @@ const init = async () => {
 };
 
 if (resultsContainer && input && clearButton) {
+  populateCategoryButtons();
   attachEventListeners();
   init();
 } else {
