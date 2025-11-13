@@ -6,13 +6,56 @@
     <title>桃鉄ワールド カード検索</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body style="margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; font-family:'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif; background-color:#f7f7f7; color:#333;">
-    <div style="max-width:640px; padding:2rem; text-align:center; background-color:#fff; border-radius:12px; box-shadow:0 12px 30px rgba(0, 0, 0, 0.08);">
-      <h1 style="margin-bottom:1rem; font-size:2rem;">桃鉄ワールド カード検索</h1>
-      <p style="line-height:1.7;">
-        駅ごとに購入できるカードの情報をまとめたデータセットを、ブラウザから手軽に閲覧できるよう準備中です。
-      </p>
-    </div>
+  <body>
+    <header class="hero">
+      <h1>桃鉄ワールド カード検索</h1>
+      <p>駅名で絞り込み、購入できるカードをすぐに確認できます。</p>
+    </header>
+
+    <main class="container">
+      <section class="search-panel" aria-label="カードショップ検索">
+        <label class="search-label" for="station-input">駅名を入力してください</label>
+        <div class="search-box">
+          <input
+            id="station-input"
+            type="search"
+            placeholder="例: 東京"
+            autocomplete="off"
+            aria-describedby="search-hint"
+          />
+          <button id="clear-button" type="button" aria-label="検索条件をクリア">クリア</button>
+        </div>
+        <p id="search-hint" class="search-hint">ひらがな・カタカナ・漢字の一部を入力して検索できます。</p>
+      </section>
+
+      <section class="category-panel" aria-label="カードカテゴリから検索">
+        <h2 class="category-panel__title">カテゴリからカードを選ぶ</h2>
+
+        <div class="category-group">
+          <h3 class="category-group__heading">攻撃系カード</h3>
+          <div class="category-group__buttons" id="attack-card-buttons"></div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-group__heading">移動系カード</h3>
+          <div class="category-group__buttons" id="move-card-buttons"></div>
+        </div>
+
+        <div class="category-group">
+          <h3 class="category-group__heading">特殊系カード</h3>
+          <div class="category-group__buttons" id="special-card-buttons"></div>
+        </div>
+      </section>
+
+      <section id="results" class="results" aria-live="polite">
+        <div class="result-placeholder">駅名を入力して検索を開始してください。</div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <small>&copy; 桃鉄ワールド カードデータ ビューア</small>
+    </footer>
+
     <script src="main.js"></script>
   </body>
 </html>

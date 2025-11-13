@@ -1,0 +1,240 @@
+:root {
+  color-scheme: light;
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "游ゴシック体", sans-serif;
+  line-height: 1.6;
+  background-color: #f5f7fb;
+  color: #2d3142;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.hero {
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 6vw, 3rem) clamp(1.25rem, 3vw, 2rem);
+  text-align: center;
+  background: linear-gradient(135deg, #ff8ba7 0%, #f9d423 100%);
+  color: #fff;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+}
+
+.hero h1,
+.hero p {
+  max-width: min(90vw, 40rem);
+}
+
+.hero p {
+  margin: 0;
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  padding-inline: clamp(0.5rem, 3vw, 1.5rem);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.container {
+  flex: 1 0 auto;
+  width: min(960px, 90vw);
+  margin: -2rem auto 0;
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.08);
+  padding: clamp(1.5rem, 4vw, 3rem);
+}
+
+.search-panel {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.search-label {
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.search-box {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d7dbe7;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #ff8ba7;
+  box-shadow: 0 0 0 3px rgba(255, 139, 167, 0.2);
+}
+
+.search-box button {
+  padding: 0.75rem 1.25rem;
+  background: #2d3142;
+  color: #fff;
+  border: none;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.search-box button:hover,
+.search-box button:focus-visible {
+  filter: brightness(1.1);
+}
+
+.search-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #6c7393;
+}
+
+.category-panel {
+  margin-bottom: 2.5rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.category-panel__title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+  font-weight: 700;
+  text-align: center;
+  color: #2d3142;
+}
+
+.category-group {
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background-color: #fafbff;
+  border: 1px solid #eceff6;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+}
+
+.category-group__heading {
+  margin: 0 0 0.75rem;
+  font-size: 1.05rem;
+  color: #ff6386;
+  letter-spacing: 0.03em;
+}
+
+.category-group__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-button {
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 139, 167, 0.4);
+  background-color: #fff;
+  color: #2d3142;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.category-button:hover,
+.category-button:focus-visible {
+  background-color: #ff8ba7;
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 139, 167, 0.25);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.results {
+  display: grid;
+  gap: 1rem;
+}
+
+.result-card {
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #eceff6;
+  border-radius: 1rem;
+  background-color: #fafbff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.result-card h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  color: #ff6386;
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card-list li {
+  padding: 0.4rem 0.75rem;
+  background-color: #fff;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 99, 134, 0.2);
+  font-size: 0.95rem;
+}
+
+.result-placeholder,
+.error-message,
+.loading-message {
+  padding: 2rem;
+  text-align: center;
+  color: #6c7393;
+  background-color: #fafbff;
+  border-radius: 1rem;
+  border: 1px dashed #d7dbe7;
+}
+
+.footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.85rem;
+  color: #6c7393;
+}
+
+@media (max-width: 640px) {
+  .container {
+    margin-top: -1rem;
+    padding: 1.5rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box button {
+    width: 100%;
+  }
+
+  .category-group {
+    padding: 1rem;
+  }
+}
