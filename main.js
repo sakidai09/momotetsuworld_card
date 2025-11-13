@@ -33,30 +33,47 @@ const createResultCard = ({ station, cards }) => {
   return article;
 };
 
-const normalize = (text) =>
-  text
-    .toString()
-    .normalize("NFKC")
-    .trim()
-    .toLowerCase();
+const toHiragana = (text) =>
+  text.replace(/[\u30a1-\u30f6]/g, (char) =>
+    String.fromCharCode(char.charCodeAt(0) - 0x60)
+  );
+
+const normalize = (text) => {
+  if (text == null) {
+    return "";
+  }
+
+  return toHiragana(
+    text
+      .toString()
+      .normalize("NFKC")
+      .trim()
+      .toLowerCase()
+  );
+};
 
 const renderResults = (query) => {
   const normalizedQuery = normalize(query);
 
   if (!normalizedQuery) {
-    renderMessage("駅名を入力して検索を開始してください。");
+    renderMessage("駅名またはカード名を入力して検索を開始してください。");
     return;
   }
 
-  const filtered = stations.filter(({ station }) =>
-    normalize(station).includes(normalizedQuery)
-  );
+  const filtered = stations.filter(({ station, cards }) => {
+    const matchesStation = normalize(station).includes(normalizedQuery);
+    const matchesCard = Array.isArray(cards)
+      ? cards.some((card) => normalize(card).includes(normalizedQuery))
+      : false;
+
+    return matchesStation || matchesCard;
+  });
 
   resultsContainer.innerHTML = "";
 
   if (!filtered.length) {
     renderMessage(
-      `「${query}」に一致する駅は見つかりませんでした。`,
+      `「${query}」に一致する駅やカードは見つかりませんでした。`,
       "error-message"
     );
     return;
