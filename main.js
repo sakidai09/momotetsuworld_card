@@ -185,6 +185,32 @@ const loadStationsFromData = (data) => {
   throw new Error("Unexpected data format");
 };
 
+const collectAvailableCards = (stationList) => {
+  const available = new Set();
+
+  stationList.forEach(({ cards }) => {
+    if (!Array.isArray(cards)) {
+      return;
+    }
+
+    cards.forEach((card) => {
+      if (card != null) {
+        available.add(card);
+      }
+    });
+  });
+
+  return available;
+};
+
+const filterCategoryDefinitions = (availableCards) => {
+  categoryDefinitions.forEach((definition) => {
+    definition.cards = definition.cards.filter((card) =>
+      availableCards.has(card)
+    );
+  });
+};
+
 const init = async () => {
   renderMessage("データを読み込み中です...", "loading-message");
 
@@ -198,6 +224,10 @@ const init = async () => {
     const data = await response.json();
 
     stations = loadStationsFromData(data);
+
+    const availableCards = collectAvailableCards(stations);
+    filterCategoryDefinitions(availableCards);
+    populateCategoryButtons();
     performSearch(input.value);
   } catch (error) {
     console.error("データの読み込みに失敗しました", error);
@@ -209,7 +239,6 @@ const init = async () => {
 };
 
 if (resultsContainer && input && clearButton) {
-  populateCategoryButtons();
   attachEventListeners();
   init();
 } else {
