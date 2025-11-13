@@ -14,7 +14,7 @@
 
     <main class="container">
       <section class="search-panel" aria-label="カードショップ検索">
-        <label class="search-label" for="station-input">駅名を入力してください</label>
+        <label class="search-label" for="station-input">駅名またはカード名を入力してください</label>
         <div class="search-box">
           <input
             id="station-input"
@@ -26,6 +26,10 @@
           <button id="clear-button" type="button" aria-label="検索条件をクリア">クリア</button>
         </div>
         <p id="search-hint" class="search-hint">ひらがな・カタカナ・漢字の一部を入力して検索できます。</p>
+      </section>
+
+      <section id="results" class="results" aria-live="polite">
+        <div class="result-placeholder">駅名またはカード名を入力して検索を開始してください。</div>
       </section>
 
       <section class="category-panel" aria-label="カードカテゴリから検索">
@@ -45,10 +49,6 @@
           <h3 class="category-group__heading">特殊系カード</h3>
           <div class="category-group__buttons" id="special-card-buttons"></div>
         </div>
-      </section>
-
-      <section id="results" class="results" aria-live="polite">
-        <div class="result-placeholder">駅名を入力して検索を開始してください。</div>
       </section>
     </main>
 
