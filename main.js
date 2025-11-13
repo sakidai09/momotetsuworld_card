@@ -99,7 +99,7 @@ const performSearch = (query = input.value) => {
   const normalizedQuery = normalize(query);
 
   if (!normalizedQuery) {
-    renderMessage("駅名またはカード名を入力して検索を開始してください。");
+    renderMessage("ここに検索結果が表示されます。");
     return;
   }
 
