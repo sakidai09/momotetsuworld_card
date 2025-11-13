@@ -115,6 +115,10 @@ body {
   gap: 1.75rem;
 }
 
+.category-typography {
+  font-family: "Arial", "Helvetica", sans-serif;
+}
+
 .category-panel__title {
   margin: 0;
   font-size: clamp(1.1rem, 2.8vw, 1.35rem);
